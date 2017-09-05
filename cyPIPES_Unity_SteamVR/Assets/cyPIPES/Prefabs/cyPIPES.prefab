@@ -1,0 +1,138 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1988566246638058}
+  m_IsPrefabParent: 1
+--- !u!1 &1988566246638058
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4115320342716630}
+  - component: {fileID: 114111219590721478}
+  - component: {fileID: 114767457212890066}
+  - component: {fileID: 114394884873301588}
+  - component: {fileID: 114067178719894540}
+  - component: {fileID: 114461807762131010}
+  m_Layer: 0
+  m_Name: cyPIPES
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4115320342716630
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1988566246638058}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114067178719894540
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1988566246638058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 006106163abda1e4caa38fb28ede9d49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cyPIPESLogActive: 1
+  cyPIPESErrorsActive: 1
+  volumeHeight: 2.44
+  vEFDparse: 0
+  vEFDtileRecordComplete: 0
+  allConfigs: {fileID: 114111219590721478}
+  parser: {fileID: 114767457212890066}
+  size: 0
+  vertices: []
+--- !u!114 &114111219590721478
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1988566246638058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 277ee0e3fa360a146b6ba720d7ddfbd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cyPIPESLogActive: 1
+  cyPIPESErrorsActive: 1
+  rootUnitAddress: 
+  rootUnitID: 
+--- !u!114 &114394884873301588
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1988566246638058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 638809f0b32b4ae46859537897798260, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cyPIPESLogActive: 1
+  cyPIPESErrorsActive: 1
+  configs: {fileID: 114111219590721478}
+  parser: {fileID: 114767457212890066}
+--- !u!114 &114461807762131010
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1988566246638058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33a5c00dff877b946b12f07a4c996aa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cyPIPESLogActive: 1
+  cyPIPESErrorsActive: 1
+  parser: {fileID: 114767457212890066}
+  userObj: {fileID: 0}
+  userPosition: {x: 0, y: 0, z: 0}
+  userChestPos: {x: 0, y: 0, z: 0}
+  userInTrackedSpace: 0
+--- !u!114 &114767457212890066
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1988566246638058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30a9130844d0c914baf8650dbb02b04a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cyPIPESLogActive: 1
+  cyPIPESErrorsActive: 1
+  vrPlaySpaceObj: {fileID: 0}
+  configs: {fileID: 114111219590721478}
+  vEFDswitch: {fileID: 114067178719894540}
+  windSensorPrefab: {fileID: 1510285539472736, guid: d4238a7fa4236c049bab8182bd97de3e,
+    type: 2}
+  heatSensorPrefab: {fileID: 1099698902914122, guid: d1ead5d377a36584c82494b0b17f2524,
+    type: 2}
+  otherSensorPrefab: {fileID: 1125055457368366, guid: 12237287c71ea3c459234fad69ab6955,
+    type: 2}
+  unitObjectPrefab: {fileID: 1495441175980140, guid: 7075e0a1c2013bf47addc05e83f3e6ac,
+    type: 2}
