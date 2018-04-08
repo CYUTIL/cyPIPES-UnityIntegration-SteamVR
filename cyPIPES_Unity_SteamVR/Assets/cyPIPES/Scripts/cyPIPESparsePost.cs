@@ -234,7 +234,7 @@ public class cyPIPESparsePost : MonoBehaviour {
 				}
 			}
 			//reference user's play space object attach cyPIPES as a child along with all the virtual sensors
-			if (VRSettings.enabled) {
+			if (UnityEngine.VR.VRSettings.enabled) {
 				if (vrPlaySpaceObj != null) {
 					gameObject.transform.localPosition = vrPlaySpaceObj.transform.localPosition;
 					gameObject.transform.parent = vrPlaySpaceObj.transform;
