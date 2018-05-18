@@ -9,7 +9,7 @@ public class attachToCameraRig : MonoBehaviour {
 
 	void Update () {
 
-		if (UnityEngine.VR.VRSettings.enabled) {
+		if (UnityEngine.XR.XRSettings.enabled) {
 			if (vrPlaySpaceObj != null) {
 				gameObject.transform.localPosition = vrPlaySpaceObj.transform.localPosition;
 			}

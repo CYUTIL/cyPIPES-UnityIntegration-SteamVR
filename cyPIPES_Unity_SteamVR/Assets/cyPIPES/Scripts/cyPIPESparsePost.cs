@@ -234,11 +234,12 @@ public class cyPIPESparsePost : MonoBehaviour {
 				}
 			}
 			//reference user's play space object attach cyPIPES as a child along with all the virtual sensors
-			if (UnityEngine.VR.VRSettings.enabled) {
+			if (UnityEngine.XR.XRSettings.enabled) {
 				if (vrPlaySpaceObj != null) {
 					gameObject.transform.localPosition = vrPlaySpaceObj.transform.localPosition;
 					gameObject.transform.parent = vrPlaySpaceObj.transform;
-					//gameObject.transform.localPosition = Vector3.zero;
+					//testing 11-22-17 On Hot Air Balloon Demo.  It was not Zeroing tiles on user and this solved it.  It was commented out??
+					gameObject.transform.localPosition = Vector3.zero;
 					//Signal to tile normalization that all vEFDs are placed and cyPIPES is a child of tracked space.
 					vEFDswitch.vEFDparse = true;
 				} else {

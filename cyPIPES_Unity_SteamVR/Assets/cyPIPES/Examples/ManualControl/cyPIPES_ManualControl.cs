@@ -28,7 +28,8 @@ public class cyPIPES_ManualControl : MonoBehaviour {
 	//	bool ch4Kill = false;
 	//	bool ch5Kill = false;
 	//	bool ch6Kill = false;
-
+	[Tooltip("Only enable this to debug inside of Unity. If you leave this on it will set all channels only by checkboxes and block all other cy.PIPES signaling.")]
+	public bool EnableCheckBoxControl;
 	public bool Channel1;
 	public bool Channel2;
 	public bool Channel3;
@@ -41,7 +42,7 @@ public class cyPIPES_ManualControl : MonoBehaviour {
 	string[] lastPacket = new string[6]{"n","n","n","n","n","n"};
 	string lastCustomPacket;
 
-	//cyPIPES unit default values
+	//cyPIPES unit default value
 	private int _ch1 = 0;
 	private int _ch2 = 0;
 	private int _ch3 = 0;
@@ -466,35 +467,37 @@ public class cyPIPES_ManualControl : MonoBehaviour {
 	void Update () {
 
 		//Manual controls for the Unity Inspector
-		if (Channel1) {
-			ch1 = 1;
-		} else if (!Channel1) {
-			ch1 = 0;
-		}
-		if (Channel2) {
-			ch2 = 1;
-		} else if (!Channel2) {
-			ch2 = 0;
-		}
-		if (Channel3) {
-			ch3 = 1;
-		} else if (!Channel3) {
-			ch3 = 0;
-		}
-		if (Channel4) {
-			ch4 = 1;
-		} else if (!Channel4) {
-			ch4 = 0;
-		}
-		if (Channel5) {
-			ch5 = 1;
-		} else if (!Channel5) {
-			ch5 = 0;
-		}
-		if (Channel6) {
-			ch6 = 1;
-		} else if (!Channel6) {
-			ch6 = 0;
+		if (EnableCheckBoxControl) {
+			if (Channel1) {
+				ch1 = 1;
+			} else if (!Channel1) {
+				ch1 = 0;
+			}
+			if (Channel2) {
+				ch2 = 1;
+			} else if (!Channel2) {
+				ch2 = 0;
+			}
+			if (Channel3) {
+				ch3 = 1;
+			} else if (!Channel3) {
+				ch3 = 0;
+			}
+			if (Channel4) {
+				ch4 = 1;
+			} else if (!Channel4) {
+				ch4 = 0;
+			}
+			if (Channel5) {
+				ch5 = 1;
+			} else if (!Channel5) {
+				ch5 = 0;
+			}
+			if (Channel6) {
+				ch6 = 1;
+			} else if (!Channel6) {
+				ch6 = 0;
+			}
 		}
 
 	}

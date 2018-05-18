@@ -16,13 +16,13 @@ public class exampleManualControlScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		//Use the spacebar to manually trigger channel 2 on unit "0000011"
+		//Use the P key to manually trigger channel 2 on unit "0000029"
 			//NOTE: When you run your code in the editor you will see the unit IDs on the GameObject that the manualEvent.cs component is attached too
-		if (Input.GetKeyDown (KeyCode.Space)) {
-			fxEvent.onUnit ["0000011"].ch2 = 1;
+		if (Input.GetKeyDown (KeyCode.P)) {
+			fxEvent.onUnit ["0000029"].ch2 = 1;
 		}
-		if (Input.GetKeyUp (KeyCode.Space)) {
-			fxEvent.onUnit ["0000011"].ch2 = 0;
+		if (Input.GetKeyUp (KeyCode.P)) {
+			fxEvent.onUnit ["0000029"].ch2 = 0;
 		}
 		
 	}

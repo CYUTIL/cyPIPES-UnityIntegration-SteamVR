@@ -60,7 +60,9 @@ public class cyPIPESConfigs : MonoBehaviour {
 					string jonData = System.IO.File.ReadAllText ("C:\\PIPES_Scanner\\ConfigApps\\unitConfigs\\"+unitID+".json");
 					cyPIPESunit unit = JsonUtility.FromJson<cyPIPESunit>(jonData);
 					allCyPIPESunits.Add (unitID,unit);
-					unitList.Add(unitID);
+					if(unitList.Contains(unitID) == false){
+						unitList.Add(unitID);
+					}
 					if (cyPIPESLogActive){Debug.Log("cyPIPES Log: cyPIPES unit " + unitID + " successfully added.");}
 				}catch{
 					if (cyPIPESErrorsActive) {Debug.LogError ("cyPIPES ERROR: cyPIPESConfigs having trouble accessing unit " + unitID + "'s configuration .json file.");}

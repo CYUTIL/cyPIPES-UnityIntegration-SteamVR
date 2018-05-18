@@ -43,9 +43,12 @@ public static class cyPIPEStileBuild {
 		mr.receiveShadows = false;
 		mr.lightProbeUsage = LightProbeUsage.Off;
 
-		//Adding collider
+		//Adding collider and kinematic rigibody
 		if (collider) {
 			(go.AddComponent (typeof(MeshCollider)) as MeshCollider).sharedMesh = m;
+			go.AddComponent<Rigidbody>();
+			go.GetComponent<Rigidbody> ().useGravity = false;
+			go.GetComponent<Rigidbody> ().isKinematic = true;
 		}
 
 		m.RecalculateBounds ();
