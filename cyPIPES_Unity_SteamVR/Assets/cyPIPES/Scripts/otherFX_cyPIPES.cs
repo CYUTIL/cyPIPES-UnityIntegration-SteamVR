@@ -81,9 +81,9 @@ public class otherFX_cyPIPES : MonoBehaviour {
 						}
 						int j = 0;
 						foreach (float dist in hitDistance) {//find shortest hit disance object
-							if (dist == Mathf.Min (hitDistance)) {//be sure that the closet object is a cyPIPES layer object 
+							if (dist == Mathf.Min (hitDistance)) {//only check the closest dist object, & below be sure that the closet object is a cyPIPES layer object 
 								if (hits [j].transform.gameObject.layer == dataRef.cyPIPESlayer) {
-									closestHit = hits [j].transform.gameObject;//reference which tile it is
+									closestHit = hits [j].transform.gameObject;//reference the cyPIPES object hit for processing below
 									//Debug.Log ("HIT DETECTED ON " + closestHit.name);
 								}
 							}
@@ -106,14 +106,14 @@ public class otherFX_cyPIPES : MonoBehaviour {
 									if (details [3] == tileHit) {//if its the tile
 										foreach (string uID in dataRef.parser.allUnitObjects.Keys) {//lets communicate the ON command now
 											if (uID == details [0]) {//if the unitID matches unitID
-												//change parameter in the correct channel
+												//Dig for a reference to the correct generated virtual cyPIPES unit GameObject & change parameter in the correct channel
 												if (details [1] == "ch1") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().customCommandCH1 = customStringCommand;}
 												if (details [1] == "ch2") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().customCommandCH2 = customStringCommand;}
 												if (details [1] == "ch3") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().customCommandCH3 = customStringCommand;}
 												if (details [1] == "ch4") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().customCommandCH4 = customStringCommand;}
 												if (details [1] == "ch5") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().customCommandCH5 = customStringCommand;}
 												if (details [1] == "ch6") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().customCommandCH6 = customStringCommand;}
-												//Assign data to activeChs[]
+												//Assign data to activeChs[] if it's not there already
 												if(!activeChs.Contains(data)){
 													activeChs.Add (data);
 												}
@@ -141,6 +141,7 @@ public class otherFX_cyPIPES : MonoBehaviour {
 			if (activeChs.Count > 0) {
 				//If user is not in active space OFF condition
 				if (dataRef.userActive == false) {
+					Debug.Log ("VR Headset outside of tracked space, no cy.PIPES custom effects are being communicated until headset is back within tracked space.");
 					//shut down all channels in active list and clear list (ONLY ONCE SEND OFF TYPE COMMANDS)
 					foreach (string data in activeChs) {
 						//reminder data format is unitID,ch#,chType,tileAssignment
@@ -325,6 +326,7 @@ public class otherFX_cyPIPES : MonoBehaviour {
 			if (activeChs.Count > 0) {
 				//If user is not in active space OFF condition
 				if (dataRef.userActive == false) {
+					Debug.Log ("VR Headset outside of tracked space, no cy.PIPES custom effects are being communicated until headset is back within tracked space.");
 					//shut down all channels in active list and clear list (ONLY ONCE SEND OFF TYPE COMMANDS)
 					foreach (string data in activeChs) {
 						//reminder data format is unitID,ch#,chType,tileAssignment
@@ -511,6 +513,7 @@ public class otherFX_cyPIPES : MonoBehaviour {
 			if (activeChs.Count > 0) {
 				//If user is not in active space OFF condition
 				if (dataRef.userActive == false) {
+					Debug.Log ("VR Headset outside of tracked space, no cy.PIPES custom effects are being communicated until headset is back within tracked space.");
 					//shut down all channels in active list and clear list (ONLY ONCE SEND OFF TYPE COMMANDS)
 					foreach (string data in activeChs) {
 						//reminder data format is unitID,ch#,chType,tileAssignment

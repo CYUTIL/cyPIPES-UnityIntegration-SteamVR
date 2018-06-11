@@ -84,9 +84,9 @@ public class heatFX_cyPIPES : MonoBehaviour {
 						}
 						int j = 0;
 						foreach (float dist in hitDistance) {//find shortest hit disance object
-							if (dist == Mathf.Min (hitDistance)) {//be sure that the closet object is a cyPIPES layer object 
+							if (dist == Mathf.Min (hitDistance)) {//only check the closest dist object, & below be sure that the closet object is a cyPIPES layer object 
 								if (hits [j].transform.gameObject.layer == dataRef.cyPIPESlayer) {
-									closestHit = hits [j].transform.gameObject;//reference which tile it is
+									closestHit = hits [j].transform.gameObject;//reference the cyPIPES object hit for processing below
 									//Debug.Log ("HIT DETECTED ON " + closestHit.name);
 								}
 							}
@@ -109,14 +109,14 @@ public class heatFX_cyPIPES : MonoBehaviour {
 									if (details [3] == tileHit) {//if its the tile
 										foreach (string uID in dataRef.parser.allUnitObjects.Keys) {//lets communicate the ON command now
 											if (uID == details [0]) {//if the unitID matches unitID
-												//change parameter in the correct channel
-												if (details [1] == "ch1") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch1 = intensity;}
-												if (details [1] == "ch2") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch2 = intensity;}
-												if (details [1] == "ch3") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch3 = intensity;}
-												if (details [1] == "ch4") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch4 = intensity;}
-												if (details [1] == "ch5") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch5 = intensity;}
-												if (details [1] == "ch6") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch6 = intensity;}
-												//Assign data to activeChs[]
+												//Dig for a reference to the correct generated virtual cyPIPES unit GameObject & change parameter in the correct channel
+												if (details [1] == "ch1") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch1Param(intensity);}
+												if (details [1] == "ch2") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch2Param(intensity);}
+												if (details [1] == "ch3") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch3Param(intensity);}
+												if (details [1] == "ch4") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch4Param(intensity);}
+												if (details [1] == "ch5") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch5Param(intensity);}
+												if (details [1] == "ch6") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch6Param(intensity);}
+												//Assign data to activeChs[] if it's not there already
 												if(!activeChs.Contains(data)){
 													activeChs.Add (data);
 												}
@@ -144,18 +144,19 @@ public class heatFX_cyPIPES : MonoBehaviour {
 			if (activeChs.Count > 0) {
 				//If user is not in active space OFF condition
 				if (dataRef.userActive == false) {
+					Debug.Log ("VR Headset outside of tracked space, no cy.PIPES heat effects are being communicated until headset is back within tracked space.");
 					//shut down all channels in active list and clear list (ONLY ONCE SEND OFF TYPE COMMANDS)
 					foreach (string data in activeChs) {
 						//reminder data format is unitID,ch#,chType,tileAssignment
 						string[] details = data.Split (',');
 						foreach (string uID in dataRef.parser.allUnitObjects.Keys) {
 							if (uID == details [0]) {//if the unitID matches unitID record entry
-								if (details [1] == "ch1") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch1 = 0;}
-								if (details [1] == "ch2") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch2 = 0;}
-								if (details [1] == "ch3") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch3 = 0;}
-								if (details [1] == "ch4") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch4 = 0;}
-								if (details [1] == "ch5") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch5 = 0;}
-								if (details [1] == "ch6") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch6 = 0;}
+								if (details [1] == "ch1") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch1Param(0);}
+								if (details [1] == "ch2") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch2Param(0);}
+								if (details [1] == "ch3") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch3Param(0);}
+								if (details [1] == "ch4") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch4Param(0);}
+								if (details [1] == "ch5") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch5Param(0);}
+								if (details [1] == "ch6") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch6Param(0);}
 								//activeChs.Clear ();//NOT WORKING
 								//activeChs.Remove(data);
 							}
@@ -170,12 +171,12 @@ public class heatFX_cyPIPES : MonoBehaviour {
 						string[] details = data.Split (',');
 						foreach (string uID in dataRef.parser.allUnitObjects.Keys) {
 							if (uID == details [0]) {//if the unitID matches unitID
-								if (details [1] == "ch1") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch1 = 0;}
-								if (details [1] == "ch2") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch2 = 0;}
-								if (details [1] == "ch3") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch3 = 0;}
-								if (details [1] == "ch4") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch4 = 0;}
-								if (details [1] == "ch5") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch5 = 0;}
-								if (details [1] == "ch6") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch6 = 0;}
+								if (details [1] == "ch1") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch1Param(0);}
+								if (details [1] == "ch2") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch2Param(0);}
+								if (details [1] == "ch3") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch3Param(0);}
+								if (details [1] == "ch4") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch4Param(0);}
+								if (details [1] == "ch5") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch5Param(0);}
+								if (details [1] == "ch6") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch6Param(0);}
 								//activeChs.Clear ();//NOT WORKING
 								//activeChs.Remove(data);
 							}
@@ -190,12 +191,12 @@ public class heatFX_cyPIPES : MonoBehaviour {
 						string[] details = data.Split (',');
 						foreach (string uID in dataRef.parser.allUnitObjects.Keys) {
 							if (uID == details [0]) {//if the unitID matches unitID
-								if (details [1] == "ch1") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch1 = 0;}
-								if (details [1] == "ch2") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch2 = 0;}
-								if (details [1] == "ch3") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch3 = 0;}
-								if (details [1] == "ch4") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch4 = 0;}
-								if (details [1] == "ch5") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch5 = 0;}
-								if (details [1] == "ch6") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch6 = 0;}
+								if (details [1] == "ch1") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch1Param(0);}
+								if (details [1] == "ch2") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch2Param(0);}
+								if (details [1] == "ch3") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch3Param(0);}
+								if (details [1] == "ch4") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch4Param(0);}
+								if (details [1] == "ch5") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch5Param(0);}
+								if (details [1] == "ch6") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch6Param(0);}
 								//activeChs.Clear ();//NOT WORKING
 								//activeChs.Remove(data);
 							}
@@ -295,12 +296,12 @@ public class heatFX_cyPIPES : MonoBehaviour {
 											foreach (string uID in dataRef.parser.allUnitObjects.Keys) {//lets communicate the ON command now
 												if (uID == details [0]) {//if the unitID matches unitID
 													//change parameter in the correct channel
-													if (details [1] == "ch1") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch1 = intensity;}
-													if (details [1] == "ch2") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch2 = intensity;}
-													if (details [1] == "ch3") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch3 = intensity;}
-													if (details [1] == "ch4") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch4 = intensity;}
-													if (details [1] == "ch5") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch5 = intensity;}
-													if (details [1] == "ch6") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch6 = intensity;}
+													if (details [1] == "ch1") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch1Param(intensity);}
+													if (details [1] == "ch2") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch2Param(intensity);}
+													if (details [1] == "ch3") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch3Param(intensity);}
+													if (details [1] == "ch4") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch4Param(intensity);}
+													if (details [1] == "ch5") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch5Param(intensity);}
+													if (details [1] == "ch6") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch6Param(intensity);}
 													//Assign data to activeChs[]
 													if(!activeChs.Contains(data)){
 														activeChs.Add (data);
@@ -330,18 +331,19 @@ public class heatFX_cyPIPES : MonoBehaviour {
 			if (activeChs.Count > 0) {
 				//If user is not in active space OFF condition
 				if (dataRef.userActive == false) {
+					Debug.Log ("VR Headset outside of tracked space, no cy.PIPES heat effects are being communicated until headset is back within tracked space.");
 					//shut down all channels in active list and clear list (ONLY ONCE SEND OFF TYPE COMMANDS)
 					foreach (string data in activeChs) {
 						//reminder data format is unitID,ch#,chType,tileAssignment
 						string[] details = data.Split (',');
 						foreach (string uID in dataRef.parser.allUnitObjects.Keys) {
 							if (uID == details [0]) {//if the unitID matches unitID record entry
-								if (details [1] == "ch1") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch1 = 0;}
-								if (details [1] == "ch2") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch2 = 0;}
-								if (details [1] == "ch3") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch3 = 0;}
-								if (details [1] == "ch4") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch4 = 0;}
-								if (details [1] == "ch5") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch5 = 0;}
-								if (details [1] == "ch6") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch6 = 0;}
+								if (details [1] == "ch1") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch1Param(0);}
+								if (details [1] == "ch2") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch2Param(0);}
+								if (details [1] == "ch3") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch3Param(0);}
+								if (details [1] == "ch4") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch4Param(0);}
+								if (details [1] == "ch5") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch5Param(0);}
+								if (details [1] == "ch6") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch6Param(0);}
 								//activeChs.Clear ();//NOT WORKING
 								//activeChs.Remove(data);
 							}
@@ -356,12 +358,12 @@ public class heatFX_cyPIPES : MonoBehaviour {
 						string[] details = data.Split (',');
 						foreach (string uID in dataRef.parser.allUnitObjects.Keys) {
 							if (uID == details [0]) {//if the unitID matches unitID
-								if (details [1] == "ch1") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch1 = 0;}
-								if (details [1] == "ch2") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch2 = 0;}
-								if (details [1] == "ch3") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch3 = 0;}
-								if (details [1] == "ch4") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch4 = 0;}
-								if (details [1] == "ch5") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch5 = 0;}
-								if (details [1] == "ch6") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch6 = 0;}
+								if (details [1] == "ch1") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch1Param(0);}
+								if (details [1] == "ch2") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch2Param(0);}
+								if (details [1] == "ch3") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch3Param(0);}
+								if (details [1] == "ch4") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch4Param(0);}
+								if (details [1] == "ch5") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch5Param(0);}
+								if (details [1] == "ch6") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch6Param(0);}
 								//activeChs.Clear ();//NOT WORKING
 								//activeChs.Remove(data);
 							}
@@ -376,12 +378,12 @@ public class heatFX_cyPIPES : MonoBehaviour {
 						string[] details = data.Split (',');
 						foreach (string uID in dataRef.parser.allUnitObjects.Keys) {
 							if (uID == details [0]) {//if the unitID matches unitID
-								if (details [1] == "ch1") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch1 = 0;}
-								if (details [1] == "ch2") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch2 = 0;}
-								if (details [1] == "ch3") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch3 = 0;}
-								if (details [1] == "ch4") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch4 = 0;}
-								if (details [1] == "ch5") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch5 = 0;}
-								if (details [1] == "ch6") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch6 = 0;}
+								if (details [1] == "ch1") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch1Param(0);}
+								if (details [1] == "ch2") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch2Param(0);}
+								if (details [1] == "ch3") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch3Param(0);}
+								if (details [1] == "ch4") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch4Param(0);}
+								if (details [1] == "ch5") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch5Param(0);}
+								if (details [1] == "ch6") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch6Param(0);}
 								//activeChs.Clear ();//NOT WORKING
 								//activeChs.Remove(data);
 							}
@@ -483,12 +485,12 @@ public class heatFX_cyPIPES : MonoBehaviour {
 										foreach (string uID in dataRef.parser.allUnitObjects.Keys) {//lets communicate the ON command now
 											if (uID == details [0]) {//if the unitID matches unitID
 												//change parameter in the correct channel
-												if (details [1] == "ch1") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch1 = intensity;}
-												if (details [1] == "ch2") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch2 = intensity;}
-												if (details [1] == "ch3") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch3 = intensity;}
-												if (details [1] == "ch4") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch4 = intensity;}
-												if (details [1] == "ch5") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch5 = intensity;}
-												if (details [1] == "ch6") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch6 = intensity;}
+												if (details [1] == "ch1") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch1Param(intensity);}
+												if (details [1] == "ch2") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch2Param(intensity);}
+												if (details [1] == "ch3") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch3Param(intensity);}
+												if (details [1] == "ch4") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch4Param(intensity);}
+												if (details [1] == "ch5") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch5Param(intensity);}
+												if (details [1] == "ch6") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch6Param(intensity);}
 												//Assign data to activeChs[]
 												if(!activeChs.Contains(data)){
 													activeChs.Add (data);
@@ -518,18 +520,19 @@ public class heatFX_cyPIPES : MonoBehaviour {
 			if (activeChs.Count > 0) {
 				//If user is not in active space OFF condition
 				if (dataRef.userActive == false) {
+					Debug.Log ("VR Headset outside of tracked space, no cy.PIPES heat effects are being communicated until headset is back within tracked space.");
 					//shut down all channels in active list and clear list (ONLY ONCE SEND OFF TYPE COMMANDS)
 					foreach (string data in activeChs) {
 						//reminder data format is unitID,ch#,chType,tileAssignment
 						string[] details = data.Split (',');
 						foreach (string uID in dataRef.parser.allUnitObjects.Keys) {
 							if (uID == details [0]) {//if the unitID matches unitID record entry
-								if (details [1] == "ch1") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch1 = 0;}
-								if (details [1] == "ch2") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch2 = 0;}
-								if (details [1] == "ch3") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch3 = 0;}
-								if (details [1] == "ch4") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch4 = 0;}
-								if (details [1] == "ch5") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch5 = 0;}
-								if (details [1] == "ch6") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch6 = 0;}
+								if (details [1] == "ch1") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch1Param(0);}
+								if (details [1] == "ch2") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch2Param(0);}
+								if (details [1] == "ch3") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch3Param(0);}
+								if (details [1] == "ch4") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch4Param(0);}
+								if (details [1] == "ch5") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch5Param(0);}
+								if (details [1] == "ch6") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch6Param(0);}
 								//activeChs.Clear ();//NOT WORKING
 								//activeChs.Remove(data);
 							}
@@ -544,12 +547,12 @@ public class heatFX_cyPIPES : MonoBehaviour {
 						string[] details = data.Split (',');
 						foreach (string uID in dataRef.parser.allUnitObjects.Keys) {
 							if (uID == details [0]) {//if the unitID matches unitID
-								if (details [1] == "ch1") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch1 = 0;}
-								if (details [1] == "ch2") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch2 = 0;}
-								if (details [1] == "ch3") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch3 = 0;}
-								if (details [1] == "ch4") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch4 = 0;}
-								if (details [1] == "ch5") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch5 = 0;}
-								if (details [1] == "ch6") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch6 = 0;}
+								if (details [1] == "ch1") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch1Param(0);}
+								if (details [1] == "ch2") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch2Param(0);}
+								if (details [1] == "ch3") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch3Param(0);}
+								if (details [1] == "ch4") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch4Param(0);}
+								if (details [1] == "ch5") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch5Param(0);}
+								if (details [1] == "ch6") {dataRef.parser.allUnitObjects [uID].GetComponent<cyPIPES> ().ch6Param(0);}
 								//activeChs.Clear ();//NOT WORKING
 								//activeChs.Remove(data);
 							}

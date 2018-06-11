@@ -19,6 +19,20 @@ public class cyPIPES : MonoBehaviour {
 	public cyPIPESunit unitData;
 	string unitID;
 
+	//Per frame lists of application votes for status of each channel on this virtual cyPIPES unit
+	//[HideInInspector]
+	public List<int> ch1Votes = new List<int> ();
+//	[HideInInspector]
+	public List<int> ch2Votes = new List<int> ();
+//	[HideInInspector]
+	public List<int> ch3Votes = new List<int> ();
+//	[HideInInspector]
+	public List<int> ch4Votes = new List<int> ();
+//	[HideInInspector]
+	public List<int> ch5Votes = new List<int> ();
+//	[HideInInspector]
+	public List<int> ch6Votes = new List<int> ();
+
 	//Channel shut-off commands 
 	//float signalKillThreshold = 0.2f;
 //	bool ch1Kill = false;
@@ -355,6 +369,9 @@ public class cyPIPES : MonoBehaviour {
 		}
 	}
 
+	//public parameters for not integer custom channel commands
+	//WARNING: These commands are not filtered for priority, see Update() and prioritizeVotes() for an example of filtering the integer channel commands for priority.
+	//WARNING: Without filtering for priority frame command "effect flimmering" may happen.  Flimmering is not the right word, but its the same type of computational issue.
 	public string customCommandCH1
 	{
 		get{
@@ -459,6 +476,38 @@ public class cyPIPES : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		//consider all votes for each channel's behaviour and trigger parameter change
+		if (ch1Votes.Count > 0) {
+			ch1 = prioritizeVotes (ch1Votes);
+			//Reset list for next frame
+			ch1Votes = new List<int>();
+		}
+		if (ch2Votes.Count > 0) {
+			ch2 = prioritizeVotes (ch2Votes);
+			//Reset list for next frame
+			ch2Votes = new List<int>();
+		}
+		if (ch3Votes.Count > 0) {
+			ch3 = prioritizeVotes (ch3Votes);
+			//Reset list for next frame
+			ch3Votes = new List<int>();
+		}
+		if (ch4Votes.Count > 0) {
+			ch4 = prioritizeVotes (ch4Votes);
+			//Reset list for next frame
+			ch4Votes = new List<int>();
+		}
+		if (ch5Votes.Count > 0) {
+			ch5 = prioritizeVotes (ch5Votes);
+			//Reset list for next frame
+			ch5Votes = new List<int>();
+		}
+		if (ch6Votes.Count > 0) {
+			ch6 = prioritizeVotes (ch6Votes);
+			//Reset list for next frame
+			ch6Votes = new List<int>();
+		}
+			
 	}
 
 	//Coroutine to wait until vEFDtileRecord is completed
@@ -528,4 +577,55 @@ public class cyPIPES : MonoBehaviour {
 //		if(ch == 5){ch5Kill = true;}
 //		if(ch == 6){ch6Kill = true;}
 //	}
+
+	//Store votes in lists for each channel.  Per frame processing is handled in Update()
+	public void ch1Param (int vote){
+		ch1Votes.Add (vote);
+	}
+	public void ch2Param (int vote){
+		ch2Votes.Add (vote);
+	}
+	public void ch3Param (int vote){
+		ch3Votes.Add (vote);
+	}
+	public void ch4Param (int vote){
+		ch4Votes.Add (vote);
+	}
+	public void ch5Param (int vote){
+		ch5Votes.Add (vote);
+	}
+	public void ch6Param (int vote){
+		ch6Votes.Add (vote);
+	}
+
+	private int prioritizeVotes (List<int> batch){
+		int priorityVote;
+		foreach (int vote in batch) {
+			//First priority is given if one of the votes is a 1 for full on
+			if (vote == 1) {
+				priorityVote = 1;
+				return priorityVote;
+			}
+		}
+
+		foreach (int vote in batch) {
+			//Second priority is given if one of the votes is a 2 for pulse
+			if (vote == 2) {
+				priorityVote = 2;
+				return priorityVote;
+			}
+		}
+
+		foreach (int vote in batch) {
+			//Third priority is given if one of the votes is a 3 for breeze
+			if (vote == 3) {
+				priorityVote = 3;
+				return priorityVote;
+			}
+		}
+		//in the future new commands beyond 0,1,2,3 need to go here for other types of commands
+
+		//Fourth priority is given if one of the votes is 0 for off
+		return 0;
+	}
 }
